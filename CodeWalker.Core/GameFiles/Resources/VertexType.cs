@@ -1,4 +1,4 @@
-﻿using SharpDX;
+using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +25,7 @@ namespace CodeWalker.GameFiles
         Unk3 = 13,
         Unk4 = 14,
         Unk5 = 15,
+        Float3Half = 16
     }
 
     public static class VertexComponentTypes
@@ -44,6 +45,7 @@ namespace CodeWalker.GameFiles
                 case VertexComponentType.UByte4: return 4;
                 case VertexComponentType.Colour: return 4;
                 case VertexComponentType.Dec3N: return 4;
+                case VertexComponentType.Float3Half: return 12;
                 default: return 0;
             }
         }
@@ -63,6 +65,7 @@ namespace CodeWalker.GameFiles
                 case VertexComponentType.UByte4: return 4;
                 case VertexComponentType.Colour: return 4;
                 case VertexComponentType.Dec3N: return 3;
+                case VertexComponentType.Float3Half: return 3;
                 default: return 0;
             }
         }
