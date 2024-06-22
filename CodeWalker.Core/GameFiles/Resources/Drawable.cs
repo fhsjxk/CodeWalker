@@ -4289,9 +4289,11 @@ namespace CodeWalker.GameFiles
 
         public VertexComponentType GetComponentType(int index)
         {
-            if ((VertexSemantics)index == VertexSemantics.Normal)
+            //index is the flags bit index
+            switch ((VertexSemantics)index)
             {
-                return VertexComponentType.Float3Half;
+                case VertexSemantics.Normal: return VertexComponentType.Float3Half;
+                case VertexSemantics.Tangent: return VertexComponentType.Float4Half;
             }
             return (VertexComponentType)(((ulong)Types >> (index * 4)) & 0x0000000F);
         }
