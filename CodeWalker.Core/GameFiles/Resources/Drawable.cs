@@ -1,4 +1,4 @@
-﻿using SharpDX;
+using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -3784,6 +3784,8 @@ namespace CodeWalker.GameFiles
                     case VertexComponentType.Half4: SetHalf4(v, c, new Half4(f(0), f(1), f(2), f(3))); break;
                     case VertexComponentType.Colour: SetColour(v, c, new Color(b(0), b(1), b(2), b(3))); break;
                     case VertexComponentType.UByte4: SetUByte4(v, c, new Color(b(0), b(1), b(2), b(3))); break;
+                    case VertexComponentType.Float3Half: SetVector3Half(v, c, new Vector3(f(0), f(1), f(2))); break;
+                    case VertexComponentType.Float4Half: SetVector4Half(v, c, new Vector4(f(0), f(1), f(2), f(3))); break;
                     default:
                         break;
                 }
@@ -3959,7 +3961,46 @@ namespace CodeWalker.GameFiles
                 }
             }
         }
-
+        public void SetVector3Half(int v, int c, Vector3 val)
+        {
+            if ((Info != null) && (VertexBytes != null))
+            {
+                var s = Info.Stride;
+                var co = Info.GetComponentOffset(c);
+                var o = (v * s) + co;
+                var e = o + 12;//sizeof(Vector3)
+                if (e <= VertexBytes.Length)
+                {
+                    var x = BitConverter.GetBytes(val.X);
+                    var y = BitConverter.GetBytes(val.Y);
+                    var z = BitConverter.GetBytes(val.Z);
+                    Buffer.BlockCopy(x, 2, VertexBytes, o + 2, 2);
+                    Buffer.BlockCopy(y, 2, VertexBytes, o + 6, 2);
+                    Buffer.BlockCopy(z, 2, VertexBytes, o + 10, 2);
+                }
+            }
+        }
+         public void SetVector4Half(int v, int c, Vector4 val)
+        {
+            if ((Info != null) && (VertexBytes != null))
+            {
+                var s = Info.Stride;
+                var co = Info.GetComponentOffset(c);
+                var o = (v * s) + co;
+                var e = o + 12;//sizeof(Vector3)
+                if (e <= VertexBytes.Length)
+                {
+                    var x = BitConverter.GetBytes(val.X);
+                    var y = BitConverter.GetBytes(val.Y);
+                    var z = BitConverter.GetBytes(val.Z);
+                    var w = BitConverter.GetBytes(val.W);
+                    Buffer.BlockCopy(x, 2, VertexBytes, o + 2, 2);
+                    Buffer.BlockCopy(y, 2, VertexBytes, o + 6, 2);
+                    Buffer.BlockCopy(z, 2, VertexBytes, o + 10, 2);
+                    Buffer.BlockCopy(w, 2, VertexBytes, o + 14, 2);
+                }
+            }
+        }
         public string GetString(int v, int c, string d = ", ")
         {
             if ((Info != null) && (VertexBytes != null))
@@ -3970,7 +4011,9 @@ namespace CodeWalker.GameFiles
                     case VertexComponentType.Float: return FloatUtil.ToString(GetFloat(v, c));
                     case VertexComponentType.Float2: return FloatUtil.GetVector2String(GetVector2(v, c), d);
                     case VertexComponentType.Float3: return FloatUtil.GetVector3String(GetVector3(v, c), d);
+                    case VertexComponentType.Float3Half: return FloatUtil.GetVector3String(GetVector3(v, c), d);
                     case VertexComponentType.Float4: return FloatUtil.GetVector4String(GetVector4(v, c), d);
+                    case VertexComponentType.Float4Half: return FloatUtil.GetVector4String(GetVector4(v, c), d);
                     case VertexComponentType.Dec3N: return FloatUtil.GetVector3String(GetDec3N(v, c), d);
                     case VertexComponentType.Half2: return FloatUtil.GetHalf2String(GetHalf2(v, c), d);
                     case VertexComponentType.Half4: return FloatUtil.GetHalf4String(GetHalf4(v, c), d);
@@ -4247,6 +4290,11 @@ namespace CodeWalker.GameFiles
         public VertexComponentType GetComponentType(int index)
         {
             //index is the flags bit index
+            switch ((VertexSemantics)index)
+            {
+                case VertexSemantics.Normal: return VertexComponentType.Float3Half;
+                //case VertexSemantics.Tangent: return VertexComponentType.Float4Half;
+            }
             return (VertexComponentType)(((ulong)Types >> (index * 4)) & 0x0000000F);
         }
 
