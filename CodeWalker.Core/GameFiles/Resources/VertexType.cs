@@ -25,7 +25,8 @@ namespace CodeWalker.GameFiles
         Unk3 = 13,
         Unk4 = 14,
         Unk5 = 15,
-        Float3Half = 16
+        Float3Half = 16,
+        Float4Half = 17
     }
 
     public static class VertexComponentTypes
@@ -46,6 +47,7 @@ namespace CodeWalker.GameFiles
                 case VertexComponentType.Colour: return 4;
                 case VertexComponentType.Dec3N: return 4;
                 case VertexComponentType.Float3Half: return 12;
+                case VertexComponentType.Float4Half: return 16;
                 default: return 0;
             }
         }
@@ -66,6 +68,7 @@ namespace CodeWalker.GameFiles
                 case VertexComponentType.Colour: return 4;
                 case VertexComponentType.Dec3N: return 3;
                 case VertexComponentType.Float3Half: return 3;
+                case VertexComponentType.Float4Half: return 4;
                 default: return 0;
             }
         }
