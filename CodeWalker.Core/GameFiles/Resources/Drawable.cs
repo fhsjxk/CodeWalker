@@ -4013,7 +4013,7 @@ namespace CodeWalker.GameFiles
                     case VertexComponentType.Float3: return FloatUtil.GetVector3String(GetVector3(v, c), d);
                     case VertexComponentType.Float3Half: return FloatUtil.GetVector3String(GetVector3(v, c), d);
                     case VertexComponentType.Float4: return FloatUtil.GetVector4String(GetVector4(v, c), d);
-                    case VertexComponentType.Float4Half: return FloatUtil.GetVector3String(GetVector3(v, c), d);
+                    case VertexComponentType.Float4Half: return FloatUtil.GetVector4String(GetVector4(v, c), d);
                     case VertexComponentType.Dec3N: return FloatUtil.GetVector3String(GetDec3N(v, c), d);
                     case VertexComponentType.Half2: return FloatUtil.GetHalf2String(GetHalf2(v, c), d);
                     case VertexComponentType.Half4: return FloatUtil.GetHalf4String(GetHalf4(v, c), d);
