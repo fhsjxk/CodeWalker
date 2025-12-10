@@ -3095,7 +3095,7 @@ namespace CodeWalker.GameFiles
             return dataPCM;
         }
 
-        public static byte[] DecodeADPCMStandard(byte[] data, int sampleCount) //not work
+        public static byte[] DecodeADPCMStandard(byte[] data, int sampleCount)
         {
             byte[] dataPCM = new byte[data.Length * 4];
             int predictor = 0, stepIndex = 0;
