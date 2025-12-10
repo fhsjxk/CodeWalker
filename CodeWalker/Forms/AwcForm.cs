@@ -112,6 +112,9 @@ namespace CodeWalker.Forms
                     var name = audio.Name;
                     if (stereo) name = "(Stereo Playback)";
                     var item = PlayListView.Items.Add(name);
+                    if (stereo)
+                    item.SubItems.Add(audio.ChannelStreams[0].Type);
+                    else 
                     item.SubItems.Add(audio.Type);
                     item.SubItems.Add(audio.LengthStr);
                     item.SubItems.Add(TextUtil.GetBytesReadable(audio.ByteLength));

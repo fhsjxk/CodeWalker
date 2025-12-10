@@ -1567,9 +1567,9 @@ namespace CodeWalker.GameFiles
             {
                 bitsPerSample = 4;
                 formatcodec = 17;
-                blockAlign = /* (short)(blockAlign / 4);//  */2048;// (short)(256 * (4 * channels));// (short)(36 * channels);//256;// 2048;// 
+                blockAlign = 2048; // (short)(blockAlign / 4);//  //2048;// (short)(256 * (4 * channels));// (short)(36 * channels);//256;// 2048;// 
                 byteRate = byteRate / 4 + 41;// SamplesPerSecond * blockAlign / samples_per_block;// (int)(SamplesPerSecond * 0.50685 * channels);
-                samplesPerBlock = (short)SampleCount;// (short)samples_per_block;// 4088;// (short)(((blockAlign - (4 * channels)) * 8) / (bitsPerSample * channels) + 1); // 2044;// 
+                samplesPerBlock = 4089; //(short)SampleCount;// (short)samples_per_block;// 4088;// (short)(((blockAlign - (4 * channels)) * 8) / (bitsPerSample * channels) + 1); // 2044;// 
                 addextrafmt = true;
                 fact = true;
             }
@@ -1642,7 +1642,9 @@ namespace CodeWalker.GameFiles
                 ext2 = r.ReadUInt16();
                 samplesPerBlock = r.ReadUInt16();
             }
-            var datatag = r.ReadUInt32(); // 0x61746164
+            var tag = r.ReadUInt32(); // 0x61746164
+            if (tag == 0x74636166)
+            r.ReadBytes(12);
             var datalen = r.ReadInt32();
             var dataPCM = r.ReadBytes(datalen);
 
