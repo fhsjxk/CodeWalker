@@ -1207,7 +1207,14 @@ namespace CodeWalker.GameFiles
                         }
                         else
                         {
-                            ParseWavFile(fdata);
+                            if (filepath.EndsWith(".wav"))
+                                ParseWavFile(fdata);
+                                
+                            else if (filepath.EndsWith(".mp3"))
+                            {
+                                StreamFormat.Codec = AwcCodecType.MP3;
+                                ParseMp3File(fdata);
+                            }
                         }
                     }
                 }
@@ -1652,7 +1659,7 @@ namespace CodeWalker.GameFiles
                     dataPCM = ADPCMCodec.DecodeADPCMStandard(dataPCM, sampleCount);
                     break;
                 default:
-                    throw new Exception("Only PCM format .wav files supported!");
+                    throw new Exception("Only PCM and ADPCM format .wav files supported!");
             }
 
             if (channels != 1)
@@ -1699,6 +1706,28 @@ namespace CodeWalker.GameFiles
         {
             var data = GetRawData();
             return data;
+        }
+
+        public void ParseMp3File(byte[] mp3)
+        {
+            if (Awc.MultiChannelFlag)
+            {
+                if (StreamFormat != null)
+                {
+                    DataChunk = new AwcDataChunk(null);
+                    DataChunk.Data = mp3;
+                }
+            }
+            else
+            {
+                if (FormatChunk != null)
+                {
+                    if (DataChunk == null) DataChunk = new AwcDataChunk(new AwcChunkInfo() { Type = AwcChunkType.data });
+
+                    DataChunk.Data = mp3;
+                }
+
+            }
         }
 
     }

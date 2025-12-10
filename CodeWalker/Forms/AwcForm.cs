@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Linq;
 using Range = FastColoredTextBoxNS.Range;
+using System.Xml.Serialization;
 
 namespace CodeWalker.Forms
 {
@@ -174,7 +175,18 @@ namespace CodeWalker.Forms
                 var item = PlayListView.SelectedItems[0];
                 var audio = item.Tag as AwcStream;
                 var stereo = (audio?.ChannelStreams?.Length == 2);
+                AwcCodecType codec;
+                
                 if (stereo)
+                    codec = audio.ChannelStreams[0].StreamFormat?.Codec ?? audio.ChannelStreams[0].FormatChunk?.Codec ?? AwcCodecType.PCM;
+                else
+                    codec = audio.StreamFormat?.Codec ?? audio.FormatChunk?.Codec ?? AwcCodecType.PCM;
+                
+                if (codec == AwcCodecType.MP3)
+                {
+                    //todo: play MP3
+                }
+                else if (stereo)
                 {
                     var name0 = audio.ChannelStreams[0].Name;
                     var left0 = name0.EndsWith("left") || name0.EndsWith(".l");
